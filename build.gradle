@@ -1,0 +1,25 @@
+plugins {
+   id 'me.champeau.gradle.jmh' version '0.2.0'
+}
+
+repositories {
+    jcenter()
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'me.champeau.gradle.jmh'
+
+dependencies {
+   jmh 'org.apache.commons:commons-lang3:3.3.2'
+}
+
+jmh {
+   warmupIterations = 20
+   warmup = '1s'
+   iterations = 20
+   benchmarkMode = 'thrpt'
+   timeUnit = 'ms'
+   fork = 1
+   humanOutputFile = null
+}

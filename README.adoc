@@ -1,0 +1,20 @@
+= The Lecharny Challenge
+
+The goal of this repository is to check the performance of various implementations of an algorithm that:
+
+* given an input string
+* replaces all sequences of `\r\n `, `\n\r `, `\r ` or `\n ` with an empty string
+
+Algorithm *must* be run in the JVM.
+
+= Executing the benchmark
+
+----
+./gradlew jmh
+----
+
+= Correctness
+
+The current version of the repository doesn't check the correctness of the algorithms. Some have been proposed which
+are *incorrect*!
+

@@ -1,0 +1,3 @@
+script: ./gradlew jmh
+jdk:
+- openjdk8
