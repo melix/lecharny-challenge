@@ -29,7 +29,15 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -588,19 +596,52 @@ public class ReplaceAllBenchmark {
 
     public static void main(String[] args) {
         // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
+        Method[] methods = Replacer.class.getDeclaredMethods();
+        List<Method> impls = new ArrayList<>();
+        for (Method method : methods) {
+            if (method.getParameters().length==1 && (method.getModifiers()& Modifier.STATIC)==Modifier.STATIC) {
+                impls.add(method);
+            }
+        }
+        Set<Method> correct = new HashSet<>(impls);
         for (int i = 0; i < 10000; i++) {
             String str = randomAlphanumericString(20) + "\n\r " + randomAlphanumericString(30) + "\n "
                     + randomAlphanumericString(30);
             String orig = str.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
             String ref = Replacer.unfold_regexp(str).replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-            String cmp = Replacer.unfold_cedric_ultimate(str).replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-            boolean equals = ref.equals(cmp);
-            if (!equals) {
-                System.err.println(orig);
-                System.err.println(ref);
-                System.err.println(cmp);
-                System.err.println("---------------------------");
+            for (Method method : methods) {
+                if (correct.contains(method)) {
+                    try {
+                        String res = (String) method.invoke(null, str);
+                        String cmp = res.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
+                        boolean equals = ref.equals(cmp);
+                        if (!equals) {
+                            System.err.println("Reflection."+method.getName() + " is incorrect!");
+                            System.err.println(orig);
+                            System.err.println(ref);
+                            System.err.println(cmp);
+                            System.err.println("---------------------------");
+                            correct.remove(method);
+                        }
+                    } catch (InvocationTargetException e) {
+                        correct.remove(method);
+                    } catch (IllegalAccessException e) {
+                        correct.remove(method);
+                    }
+                }
             }
+        }
+        System.err.println("The following methods are deemed to be correct:");
+        for (Method method : correct) {
+            System.err.println("   Reflection."+method.getName());
+        }
+
+        System.err.println("The following methods are proved to be incorrect:");
+        Set<Method> incorrect = new HashSet<Method>();
+        Collections.addAll(incorrect, methods);
+        incorrect.removeAll(correct);
+        for (Method method : incorrect) {
+            System.err.println("   Reflection."+method.getName());
         }
     }
 } 
