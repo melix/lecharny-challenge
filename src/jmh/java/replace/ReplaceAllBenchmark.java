@@ -283,13 +283,13 @@ public class ReplaceAllBenchmark {
     public static void main(String[] args) {
         // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
         Method[] methods = Replacer.class.getDeclaredMethods();
-        List<Method> impls = new ArrayList<>();
+        List<Method> impls = new ArrayList<Method>();
         for (Method method : methods) {
-            if (method.getParameters().length==1 && (method.getModifiers()& Modifier.STATIC)==Modifier.STATIC) {
+            if (method.getParameterTypes().length==1 && (method.getModifiers()& Modifier.STATIC)==Modifier.STATIC) {
                 impls.add(method);
             }
         }
-        Set<Method> correct = new HashSet<>(impls);
+        Set<Method> correct = new HashSet<Method>(impls);
         for (int i = 0; i < 10000; i++) {
             String str = randomAlphanumericString(20) + "\n\r " + randomAlphanumericString(30) + "\n "
                     + randomAlphanumericString(30);

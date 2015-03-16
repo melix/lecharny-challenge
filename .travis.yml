@@ -1,3 +1,5 @@
 script: ./gradlew jmh
 jdk:
+- openjdk6
+- openjdk7
 - oraclejdk8
