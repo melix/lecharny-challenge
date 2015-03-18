@@ -87,9 +87,14 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_cedric_ultimate2(string);
     }
 
-   @Benchmark
+    @Benchmark
     public String unfold_cedric_groovy() {
         return ReplaceGroovy.unfold_groovy(string);
+    }
+
+    @Benchmark
+    public String unfold_olivier2() {
+        return Replacer.unfold_olivier2(string);
     }
 
 

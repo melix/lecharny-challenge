@@ -17,8 +17,6 @@ package replace;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Random;
-
 public class Replacer {
 
     public static String unfold_regexp(String s) {
@@ -175,6 +173,41 @@ public class Replacer {
 
         return new String(chars, 0, wrtAt);
     }
+
+    public static String unfold_olivier2(String test) {
+
+        // Throws NPE if null, like the original method
+        if (test.length() < 2) return test;
+
+        char[] chars = test.toCharArray();
+        int p = chars.length - 1;
+        int d = p;
+        char c, c1, c2;
+        while (p > 0) {
+            c = chars[p];
+            c1 = chars[p - 1];
+            if (c == ' ' && (c1 == '\n' || c1 == '\r')) {
+                p--;
+                if (p > 0) {
+                    c2 = chars[p - 1];
+                    if ((c2 == '\n' || c2 == '\r') && c2 != c1) {
+                        p--;
+                    }
+                }
+            }
+            else {
+                chars[d] = c;
+                d--;
+            }
+            p--;
+        }
+        while (p >= 0) {
+            chars[d--] = chars[p--];
+        }
+
+        return new String(chars, d + 1, chars.length - d - 1);
+    }
+
 
     private static final String[] TODO = {"\n\r ", "\r\n ", "\r ", "\n "};
 
