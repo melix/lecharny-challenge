@@ -34,6 +34,8 @@ public class RandomStringGenerator {
                 case 2:
                     sb.append(' ');
                     break;
+                case 3:
+                    sb.append("\r\n");
                 default:
                     sb.append((char) ('a' + RANDOM.nextInt(26)));
             }

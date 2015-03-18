@@ -1,4 +1,4 @@
-script: ./gradlew jmh
+script: ./gradlew test jmh
 jdk:
 - openjdk6
 - openjdk7
