@@ -1,5 +1,7 @@
 = The Lecharny Challenge
 
+image:https://travis-ci.org/melix/lecharny-challenge.svg?branch=master["Build Status", link="https://travis-ci.org/melix/lecharny-challenge"]
+
 The goal of this repository is to check the performance of various implementations of an algorithm that:
 
 * given an input string
@@ -18,3 +20,18 @@ Algorithm *must* be run in the JVM.
 The current version of the repository doesn't check the correctness of the algorithms. Some have been proposed which
 are *incorrect*!
 
+Unit tests can be launched with:
+
+----
+./gradlew test
+----
+
+= Integration with IntelliJ
+
+To use in IntelliJ, first run:
+
+----
+./gradlew idea
+----
+
+Then open the generated project.
