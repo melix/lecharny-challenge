@@ -1,25 +1,36 @@
 plugins {
-   id 'me.champeau.gradle.jmh' version '0.2.0'
+    id 'me.champeau.gradle.jmh' version '0.2.0'
 }
 
 repositories {
+    maven { url 'http://oss.jfrog.org/oss-snapshot-local/' }
     jcenter()
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'me.champeau.gradle.jmh'
 
 dependencies {
-   jmh 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'org.codehaus.groovy:groovy:2.5.0-SNAPSHOT'
+    // for tests written in Groovy
+    testCompile 'org.codehaus.groovy:groovy-test:2.5.0-SNAPSHOT'
+    // for tests using Spock
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude group:'org.codehaus.groovy' // because we will use Groovy 2.5
+    }
+    // for tests using JUnit
+    testCompile 'junit:junit:4.11'
 }
 
 jmh {
-   warmupIterations = 20
-   warmup = '1s'
-   iterations = 20
-   benchmarkMode = 'thrpt'
-   timeUnit = 'ms'
-   fork = 1
-   humanOutputFile = null
+    warmupIterations = 20
+    warmup = '1s'
+    iterations = 20
+    benchmarkMode = 'thrpt'
+    timeUnit = 'ms'
+    fork = 1
+    humanOutputFile = null
 }

@@ -16,7 +16,6 @@
 
 package replace;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -36,10 +35,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -54,199 +51,10 @@ public class ReplaceAllBenchmark {
 
     String string;
 
-    private final static Random RANDOM = new Random();
-
-    private static String randomAlphanumericString(int len) {
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            int r = RANDOM.nextInt(10);
-            switch (r) {
-                case 0:
-                    sb.append('\r');
-                    break;
-                case 1:
-                    sb.append('\n');
-                    break;
-                case 2:
-                    sb.append(' ');
-                    break;
-                default:
-                    sb.append((char) ('a' + RANDOM.nextInt(26)));
-            }
-        }
-        return sb.toString();
-    }
-
     @Setup
     public void setup() throws Throwable {
-        string = randomAlphanumericString(size / 3) + "\n\r " + randomAlphanumericString(size / 3) + "\n "
-                + randomAlphanumericString(size / 3);
-    }
-
-    static class Replacer {
-
-        static String unfold_regexp(String s) {
-            s = s.replaceAll("\n\r |\r\n |\n |\r ", "");
-            return s;
-        }
-
-        static String unfold_cedric(String s) {
-            if (s == null || s.length() < 2) {
-                return s;
-            }
-            int len = s.length();
-            char p1 = 'x';
-            char p2 = 'x';
-            char[] sb = new char[len];
-            int wrtAt = 0;
-            for (int i = 0; i < len; i++) {
-                char c = s.charAt(i);
-                if (' ' == c) {
-                    if ('\n' == p1) {
-                        if ('\r' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                    } else if ('\r' == p1) {
-                        if ('\n' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                    } else {
-                        sb[wrtAt++] = c;
-                    }
-                } else {
-                    sb[wrtAt++] = c;
-                }
-
-                p2 = p1;
-                p1 = c;
-            }
-
-            return new String(sb, 0, wrtAt);
-        }
-
-        static String unfold_cedric_improved(String s) {
-            if (s == null || s.length() < 2) {
-                return s;
-            }
-
-            int len = s.length();
-            char p1 = 'x';
-            char p2 = 'x';
-            char[] chars = s.toCharArray();
-            int wrtAt = 0;
-
-            for (int i = 0; i < len; i++) {
-                char c = chars[i];
-
-                if (' ' == c) {
-                    if ('\n' == p1) {
-                        if ('\r' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                    } else if ('\r' == p1) {
-                        if ('\n' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                    } else {
-                        chars[wrtAt++] = c;
-                    }
-                } else {
-                    chars[wrtAt++] = c;
-                }
-
-                p2 = p1;
-                p1 = c;
-            }
-
-            return new String(chars, 0, wrtAt);
-        }
-
-        static String unfold_cedric_ultimate(String s) {
-            if (s == null || s.length() < 2) {
-                return s;
-            }
-
-            char p1 = 'x';
-            char p2 = 'x';
-            char[] chars = s.toCharArray();
-            int wrtAt = 0;
-
-            for (char c : chars) {
-                chars[wrtAt++] = c;
-                if (' ' == c) {
-                    if ('\n' == p1) {
-                        if ('\r' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                        wrtAt--;
-                    }
-                    if ('\r' == p1) {
-                        if ('\n' == p2) {
-                            wrtAt--;
-                        }
-                        wrtAt--;
-                        wrtAt--;
-                    }
-                }
-
-                p2 = p1;
-                p1 = c;
-
-            }
-
-            return new String(chars, 0, wrtAt);
-        }
-
-        static String unfold_cedric_ultimate2(String s) {
-            if (s == null || s.length() < 2) {
-                return s;
-            }
-
-            char p1 = 'x';
-            char p2 = 'x';
-            char[] chars = s.toCharArray();
-            int wrtAt = 0;
-
-            for (char c : chars) {
-                chars[wrtAt++] = c;
-                if (' ' == c) {
-                    if ('\n' == p1) {
-                        if ('\r' == p2) {
-                            wrtAt -= 3;
-                        } else {
-                            wrtAt -= 2;
-                        }
-                    }
-                    if ('\r' == p1) {
-                        if ('\n' == p2) {
-                            wrtAt-=3;
-                        } else {
-                            wrtAt-=2;
-                        }
-                    }
-                }
-
-                p2 = p1;
-                p1 = c;
-
-            }
-
-            return new String(chars, 0, wrtAt);
-        }
-
-        private static final String[] TODO = {"\n\r ", "\r\n ", "\r ", "\n "};
-
-        private static final String[] TO = {"", "", "", ""};
-
-        protected static String unfold_common(final String string) {
-            return StringUtils.replaceEach(string, TODO, TO);
-        }
-
+        string = RandomStringGenerator.randomAlphanumericString(size / 3) + "\n\r " + RandomStringGenerator.randomAlphanumericString(size / 3) + "\n "
+                + RandomStringGenerator.randomAlphanumericString(size / 3);
     }
 
     @Benchmark
@@ -279,6 +87,11 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_cedric_ultimate2(string);
     }
 
+   @Benchmark
+    public String unfold_cedric_groovy() {
+        return ReplaceGroovy.unfold_groovy(string);
+    }
+
 
     public static void main(String[] args) {
         // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
@@ -291,8 +104,8 @@ public class ReplaceAllBenchmark {
         }
         Set<Method> correct = new HashSet<Method>(impls);
         for (int i = 0; i < 10000; i++) {
-            String str = randomAlphanumericString(20) + "\n\r " + randomAlphanumericString(30) + "\n "
-                    + randomAlphanumericString(30);
+            String str = RandomStringGenerator.randomAlphanumericString(20) + "\n\r " + RandomStringGenerator.randomAlphanumericString(30) + "\n "
+                    + RandomStringGenerator.randomAlphanumericString(30);
             String orig = str.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
             String ref = Replacer.unfold_regexp(str).replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
             for (Method method : methods) {
