@@ -17,29 +17,13 @@
 package replace;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Param;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -239,6 +223,40 @@ public class ReplaceAllBenchmark {
             return new String(chars, 0, wrtAt);
         }
 
+        static String unfold_olivier2(String test) {
+
+            // Throws NPE if null, like the original method
+            if (test.length() < 2) return test;
+
+            char[] chars = test.toCharArray();
+            int p = chars.length - 1;
+            int d = p;
+            char c, c1, c2;
+            while (p > 0) {
+                c = chars[p];
+                c1 = chars[p - 1];
+                if (c == ' ' && (c1 == '\n' || c1 == '\r')) {
+                    p--;
+                    if (p > 0) {
+                        c2 = chars[p - 1];
+                        if ((c2 == '\n' || c2 == '\r') && c2 != c1) {
+                            p--;
+                        }
+                    }
+                }
+                else {
+                    chars[d] = c;
+                    d--;
+                }
+                p--;
+            }
+            while (p >= 0) {
+                chars[d--] = chars[p--];
+            }
+
+            return new String(chars, d + 1, chars.length - d - 1);
+        }
+
         private static final String[] TODO = {"\n\r ", "\r\n ", "\r ", "\n "};
 
         private static final String[] TO = {"", "", "", ""};
@@ -277,6 +295,11 @@ public class ReplaceAllBenchmark {
     @Benchmark
     public String unfold_cedric_ultimate2() {
         return Replacer.unfold_cedric_ultimate2(string);
+    }
+
+    @Benchmark
+    public String unfold_olivier2() {
+        return Replacer.unfold_olivier2(string);
     }
 
 
