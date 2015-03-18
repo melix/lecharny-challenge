@@ -49,17 +49,19 @@ class ReplacerSpecification extends Specification {
         'xxx xxx'  | 'xxx xxx'
     }
 
-    @Unroll("Method '#prettyMethod' for string '#prettyStr' has output '#prettyResult'")
+    @Unroll("Method '#prettyMethod' for string '#prettyStr' has output '#prettyRef'")
     void testWithRandomStrings() {
-        expect:
+        given:
         def output = method.invoke(null, str)
-        output == result
+
+        expect:
+        output == reference
 
         where:
         [method,str] << [METHODS_TO_TEST,RANDOM_STRINGS].combinations()
-        result = unfold_regexp(str)
+        reference = unfold_regexp(str)
         prettyStr = prettify(str)
-        prettyResult = prettify(result)
+        prettyRef = prettify(reference)
         prettyMethod = method.name
     }
 }
