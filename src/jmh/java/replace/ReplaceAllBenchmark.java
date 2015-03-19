@@ -16,26 +16,12 @@
 
 package replace;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Param;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -53,15 +39,28 @@ public class ReplaceAllBenchmark {
 
     @Setup
     public void setup() throws Throwable {
-        string = RandomStringGenerator.randomAlphanumericString(size / 3) + "\n\r " + RandomStringGenerator.randomAlphanumericString(size / 3) + "\n "
-                + RandomStringGenerator.randomAlphanumericString(size / 3);
+        string = RandomStringGenerator.readFile("build", size);
     }
 
+    /**
+     * This is our baseline
+     */
     @Benchmark
-    public String unfold_all_regexp() {
+    public String unfold_regexp() {
         return Replacer.unfold_regexp(string);
     }
 
+    /**
+     * Strangely, compiling the regex brings the same result
+     */
+    @Benchmark
+    public String unfold_regexp_compiled() {
+        return Replacer.unfold_regexp(string);
+    }
+
+    /**
+     * Commons lang does better. Twice as fast
+     */
     @Benchmark
     public String unfold_unfold_common() {
         return Replacer.unfold_common(string);
@@ -87,9 +86,41 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_cedric_ultimate2(string);
     }
 
+    /**
+     * Adding the missing else doesn't improve anything. It might even be harmful
+     */
+    @Benchmark
+    public String unfold_cedric_ultimate2_with_else() {
+        return Replacer.unfold_cedric_ultimate2_with_else(string);
+    }
+
+    /**
+     * First seemed to improve a bit but now it doesn't that much
+     */
+    @Benchmark
+    public String unfold_cedric_ultimate2_ternary() {
+        return Replacer.unfold_cedric_ultimate2_ternary(string);
+    }
+
     @Benchmark
     public String unfold_cedric_groovy() {
         return ReplaceGroovy.unfold_groovy(string);
+    }
+
+    /**
+     * Removing the ++ leave it more or less the same speed
+     */
+    @Benchmark
+    public String unfold_henri_noplusplus() {
+        return Replacer.unfold_henri_noplusplus(string);
+    }
+
+    /**
+     * But separating in submethods gets almost 10% faster
+     */
+    @Benchmark
+    public String unfold_henri_submethods() {
+        return Replacer.unfold_henri_submethods(string);
     }
 
     @Benchmark
@@ -100,10 +131,10 @@ public class ReplaceAllBenchmark {
 
     public static void main(String[] args) {
         // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
-        Method[] methods = Replacer.class.getDeclaredMethods();
+        Method[] methods = Replacer.class.getMethods();
         List<Method> impls = new ArrayList<Method>();
         for (Method method : methods) {
-            if (method.getParameterTypes().length==1 && (method.getModifiers()& Modifier.STATIC)==Modifier.STATIC) {
+            if (method.getName().startsWith("unfold_") && method.getParameterTypes().length==1 && Modifier.isStatic(method.getModifiers())) {
                 impls.add(method);
             }
         }
@@ -113,7 +144,7 @@ public class ReplaceAllBenchmark {
                     + RandomStringGenerator.randomAlphanumericString(30);
             String orig = str.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
             String ref = Replacer.unfold_regexp(str).replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-            for (Method method : methods) {
+            for (Method method : impls) {
                 if (correct.contains(method)) {
                     try {
                         String res = (String) method.invoke(null, str);
@@ -141,8 +172,7 @@ public class ReplaceAllBenchmark {
         }
 
         System.err.println("The following methods are proved to be incorrect:");
-        Set<Method> incorrect = new HashSet<Method>();
-        Collections.addAll(incorrect, methods);
+        Set<Method> incorrect = new HashSet<Method>(impls);
         incorrect.removeAll(correct);
         for (Method method : incorrect) {
             System.err.println("   Reflection."+method.getName());

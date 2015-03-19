@@ -15,18 +15,27 @@
  */
 package replace;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 public final class RandomStringGenerator {
 
+    private static final int DISTRIBUTION = 10;
+
     private final static Random RANDOM = new Random();
+
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private RandomStringGenerator() {}
 
     public static String randomAlphanumericString(int len) {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            int r = RANDOM.nextInt(10);
+            int r = RANDOM.nextInt(DISTRIBUTION);
             switch (r) {
                 case 0:
                     sb.append('\r');
@@ -44,5 +53,33 @@ public final class RandomStringGenerator {
             }
         }
         return sb.toString();
+    }
+
+    private static File filePath(String dir, int size) {
+        return new File(dir, size + ".txt");
+    }
+
+    public static void generateFile(String dir, int size) throws IOException {
+        String string = randomAlphanumericString(size / 3) + "\n\r " + randomAlphanumericString(size / 3) + "\n "
+                + randomAlphanumericString(size / 3);
+        File path = filePath(dir, size);
+        byte[] buffer = new byte[1024];
+        FileOutputStream out = new FileOutputStream(path);
+        out.write(string.getBytes(UTF_8));
+        out.close();
+    }
+
+    public static String readFile(String dir, int size) throws IOException {
+        File path = filePath(dir, size);
+        byte[] buffer = new byte[(int) path.length()];
+        FileInputStream in = new FileInputStream(path);
+        in.read(buffer);
+        return new String(buffer, UTF_8);
+    }
+
+    public static void main(String[] args) throws IOException {
+        generateFile("build", 10);
+        generateFile("build", 100);
+        generateFile("build", 1000);
     }
 }

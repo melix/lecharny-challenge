@@ -17,14 +17,26 @@ package replace;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.regex.Pattern;
+
 public final class Replacer {
 
     private Replacer() {}
 
     public static String unfold_regexp(String s) {
-        if (s==null) return null;
-        s = s.replaceAll("\n\r |\r\n |\n |\r ", "");
-        return s;
+        if (s == null) {
+            return null;
+        }
+        return s.replaceAll("\n\r |\r\n |\n |\r ", "");
+    }
+
+    private static final Pattern PATTERN = Pattern.compile("\n\r |\r\n |\n |\r ");
+
+    public static String unfold_regexp_compiled(String s) {
+        if (s == null) {
+            return null;
+        }
+        return PATTERN.matcher(s).replaceAll("");
     }
 
     public static String unfold_cedric(String s) {
@@ -174,6 +186,150 @@ public final class Replacer {
         }
 
         return new String(chars, 0, wrtAt);
+    }
+
+    public static String unfold_henri_noplusplus(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt] = c;
+            if (' ' == c) {
+                if ('\n' == p1) {
+                    if ('\r' == p2) {
+                        wrtAt -= 2;
+                    } else {
+                        wrtAt -= 1;
+                    }
+                }
+                else if ('\r' == p1) {
+                    if ('\n' == p2) {
+                        wrtAt -= 2;
+                    } else {
+                        wrtAt -= 1;
+                    }
+                }
+                else {
+                    wrtAt += 1;
+                }
+            }
+            else {
+                wrtAt += 1;
+            }
+
+            p2 = p1;
+            p1 = c;
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    public static String unfold_cedric_ultimate2_ternary(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt++] = c;
+            if (' ' == c) {
+                if ('\n' == p1) {
+                    wrtAt -= ('\r' == p2) ? 3 : 2;
+                }
+                if ('\r' == p1) {
+                    wrtAt -= ('\n' == p2) ? 3 : 2;
+                }
+            }
+
+            p2 = p1;
+            p1 = c;
+
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    public static String unfold_cedric_ultimate2_with_else(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt++] = c;
+            if (' ' == c) {
+                if ('\n' == p1) {
+                    if ('\r' == p2) {
+                        wrtAt -= 3;
+                    } else {
+                        wrtAt -= 2;
+                    }
+                }
+                else if ('\r' == p1) {
+                    if ('\n' == p2) {
+                        wrtAt-=3;
+                    } else {
+                        wrtAt-=2;
+                    }
+                }
+            }
+
+            p2 = p1;
+            p1 = c;
+
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    public static String unfold_henri_submethods(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt] = c;
+            wrtAt += getWrtAt(p1, p2, c);
+            p2 = p1;
+            p1 = c;
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    private static int getWrtAt(char p1, char p2, char c) {
+        if (' ' == c) {
+            if ('\n' == p1) {
+                return getOffset(p2, '\r');
+            }
+            if ('\r' == p1) {
+                return getOffset(p2, '\n');
+            }
+        }
+        return 1;
+    }
+
+    private static int getOffset(char p2, char c) {
+        return p2 == c ? -2 : -1;
     }
 
     public static String unfold_olivier2(String test) {
