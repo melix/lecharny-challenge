@@ -25,6 +25,19 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+task generateDataSet(type:JavaExec) {
+    // directoy where to create files
+    ext.outputDir = file("$buildDir/dataset")
+
+    main = 'replace.RandomStringGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["$outputDir", "10,100,1000"]
+
+    // declare task output
+    outputs.dir outputDir
+
+}
+
 jmh {
     warmupIterations = 20
     warmup = '1s'
@@ -33,9 +46,8 @@ jmh {
     timeUnit = 'ms'
     fork = 1
     humanOutputFile = null
+    jvmArgs = "-Ddatasetdir=${generateDataSet.outputDir}"
 }
 
-task execute(type:JavaExec) {
-    main = 'replace.RandomStringGenerator'
-    classpath = sourceSets.main.runtimeClasspath
-}
+// data set has to be generated before we start
+tasks.getByName('jmh').dependsOn(generateDataSet)

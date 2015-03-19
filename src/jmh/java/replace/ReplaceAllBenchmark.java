@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class ReplaceAllBenchmark {
 
+    public static final String SOURCEFILE_DIR = System.getProperty("datasetdir", "build");
+
     @Param({"10", "100", "1000"})
     private int size;
 
@@ -39,7 +41,7 @@ public class ReplaceAllBenchmark {
 
     @Setup
     public void setup() throws Throwable {
-        string = RandomStringGenerator.readFile("build", size);
+        string = RandomStringGenerator.readFile(SOURCEFILE_DIR, size);
     }
 
     /**

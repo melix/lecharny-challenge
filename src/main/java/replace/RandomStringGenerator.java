@@ -63,7 +63,6 @@ public final class RandomStringGenerator {
         String string = randomAlphanumericString(size / 3) + "\n\r " + randomAlphanumericString(size / 3) + "\n "
                 + randomAlphanumericString(size / 3);
         File path = filePath(dir, size);
-        byte[] buffer = new byte[1024];
         FileOutputStream out = new FileOutputStream(path);
         out.write(string.getBytes(UTF_8));
         out.close();
@@ -74,12 +73,21 @@ public final class RandomStringGenerator {
         byte[] buffer = new byte[(int) path.length()];
         FileInputStream in = new FileInputStream(path);
         in.read(buffer);
+        in.close();
         return new String(buffer, UTF_8);
     }
 
     public static void main(String[] args) throws IOException {
-        generateFile("build", 10);
-        generateFile("build", 100);
-        generateFile("build", 1000);
+        String outputDir = args[0];
+        File file = new File(outputDir);
+        boolean proceed = file.exists() || file.mkdirs();
+        if (proceed) {
+            String[] sizes = args[1].split(",");
+            for (String size : sizes) {
+                generateFile(outputDir, Integer.valueOf(size));
+            }
+        } else {
+            throw new IOException("Unable to create output directory: "+outputDir);
+        }
     }
 }
