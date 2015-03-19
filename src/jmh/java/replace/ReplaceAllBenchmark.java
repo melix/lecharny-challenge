@@ -53,8 +53,7 @@ public class ReplaceAllBenchmark {
 
     @Setup
     public void setup() throws Throwable {
-        string = RandomStringGenerator.randomAlphanumericString(size / 3) + "\n\r " + RandomStringGenerator.randomAlphanumericString(size / 3) + "\n "
-                + RandomStringGenerator.randomAlphanumericString(size / 3);
+        string = RandomStringGenerator.readFile("build", size);
     }
 
     @Benchmark

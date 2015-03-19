@@ -17,7 +17,9 @@ package replace;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Replacer {
+public final class Replacer {
+
+    private Replacer() {}
 
     public static String unfold_regexp(String s) {
         if (s==null) return null;
