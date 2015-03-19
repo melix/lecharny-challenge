@@ -34,3 +34,8 @@ jmh {
     fork = 1
     humanOutputFile = null
 }
+
+task execute(type:JavaExec) {
+    main = 'replace.RandomStringGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+}
