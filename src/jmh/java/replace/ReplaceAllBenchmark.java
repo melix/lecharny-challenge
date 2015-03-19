@@ -108,7 +108,15 @@ public class ReplaceAllBenchmark {
     }
 
     /**
-     * Separate in submethods gets almost 10% faster
+     * Removing the ++ leave it more or less the same speed
+     */
+    @Benchmark
+    public String unfold_henri_noplusplus() {
+        return Replacer.unfold_henri_noplusplus(string);
+    }
+
+    /**
+     * But separating in submethods gets almost 10% faster
      */
     @Benchmark
     public String unfold_henri_submethods() {
