@@ -24,6 +24,8 @@ import java.util.Random;
 
 public final class RandomStringGenerator {
 
+    private static final int DISTRIBUTION = 10;
+
     private final static Random RANDOM = new Random();
 
     private RandomStringGenerator() {}
@@ -31,7 +33,7 @@ public final class RandomStringGenerator {
     public static String randomAlphanumericString(int len) {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            int r = RANDOM.nextInt(10);
+            int r = RANDOM.nextInt(DISTRIBUTION);
             switch (r) {
                 case 0:
                     sb.append('\r');

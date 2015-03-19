@@ -56,11 +56,25 @@ public class ReplaceAllBenchmark {
         string = RandomStringGenerator.readFile("build", size);
     }
 
+    /**
+     * This is our baseline
+     */
     @Benchmark
-    public String unfold_all_regexp() {
+    public String unfold_regexp() {
         return Replacer.unfold_regexp(string);
     }
 
+    /**
+     * Strangely, compiling the regex brings the same result
+     */
+    @Benchmark
+    public String unfold_regexp_compiled() {
+        return Replacer.unfold_regexp(string);
+    }
+
+    /**
+     * Commons lang does better. Twice as fast
+     */
     @Benchmark
     public String unfold_unfold_common() {
         return Replacer.unfold_common(string);
@@ -84,6 +98,22 @@ public class ReplaceAllBenchmark {
     @Benchmark
     public String unfold_cedric_ultimate2() {
         return Replacer.unfold_cedric_ultimate2(string);
+    }
+
+    /**
+     * Adding the missing else doesn't improve anything. It might even be harmful
+     */
+    @Benchmark
+    public String unfold_cedric_ultimate2_with_else() {
+        return Replacer.unfold_cedric_ultimate2_with_else(string);
+    }
+
+    /**
+     * First seemed to improve a bit but now it doesn't that much
+     */
+    @Benchmark
+    public String unfold_cedric_ultimate2_ternary() {
+        return Replacer.unfold_cedric_ultimate2_ternary(string);
     }
 
     @Benchmark
