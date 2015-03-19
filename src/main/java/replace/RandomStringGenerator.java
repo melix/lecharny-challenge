@@ -19,12 +19,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 public final class RandomStringGenerator {
 
     private final static Random RANDOM = new Random();
+
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private RandomStringGenerator() {}
 
@@ -61,7 +63,7 @@ public final class RandomStringGenerator {
         File path = filePath(dir, size);
         byte[] buffer = new byte[1024];
         FileOutputStream out = new FileOutputStream(path);
-        out.write(string.getBytes(StandardCharsets.UTF_8));
+        out.write(string.getBytes(UTF_8));
         out.close();
     }
 
@@ -70,7 +72,7 @@ public final class RandomStringGenerator {
         byte[] buffer = new byte[(int) path.length()];
         FileInputStream in = new FileInputStream(path);
         in.read(buffer);
-        return new String(buffer, StandardCharsets.UTF_8);
+        return new String(buffer, UTF_8);
     }
 
     public static void main(String[] args) throws IOException {
