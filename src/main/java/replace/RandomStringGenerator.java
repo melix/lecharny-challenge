@@ -17,8 +17,11 @@ package replace;
 
 import java.util.Random;
 
-public class RandomStringGenerator {
+public final class RandomStringGenerator {
+
     private final static Random RANDOM = new Random();
+
+    private RandomStringGenerator() {}
 
     public static String randomAlphanumericString(int len) {
         StringBuilder sb = new StringBuilder(len);
