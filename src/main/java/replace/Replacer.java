@@ -254,6 +254,42 @@ public final class Replacer {
         return new String(chars, 0, wrtAt);
     }
 
+    public static String unfold_henri_submethods(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt] = c;
+            wrtAt += getWrtAt(p1, p2, c);
+            p2 = p1;
+            p1 = c;
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    private static int getWrtAt(char p1, char p2, char c) {
+        if (' ' == c) {
+            if ('\n' == p1) {
+                return getOffset(p2, '\r');
+            }
+            if ('\r' == p1) {
+                return getOffset(p2, '\n');
+            }
+        }
+        return 1;
+    }
+
+    private static int getOffset(char p2, char c) {
+        return p2 == c ? -2 : -1;
+    }
+
     public static String unfold_olivier2(String test) {
 
         // Throws NPE if null, like the original method
