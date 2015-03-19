@@ -38,15 +38,17 @@ class ReplacerSpecification extends Specification {
         unfold_groovy(input) == output
 
         where:
-        input      | output
-        null       | null
-        ''         | ''
-        'a'        | 'a'
-        'xxx'      | 'xxx'
-        'xxx\n '   | 'xxx'
-        'xxx\r\n ' | 'xxx'
-        'xxx\r\r ' | 'xxx\r'
-        'xxx xxx'  | 'xxx xxx'
+        input            | output
+        null             | null
+        ''               | ''
+        'a'              | 'a'
+        'ab'             | 'ab'
+        'xxx'            | 'xxx'
+        'xxx\n '         | 'xxx'
+        'xxx\r\n '       | 'xxx'
+        'xxx\r\r '       | 'xxx\r'
+        'xxx xxx'        | 'xxx xxx'
+        'xxx\n xxx\r\n ' | 'xxxxxx'
     }
 
     @Unroll("Method '#prettyMethod' for string '#prettyStr' has output '#prettyRef'")
