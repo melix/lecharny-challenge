@@ -16,10 +16,7 @@
 package replace;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Random;
 
 public final class RandomStringGenerator {
@@ -27,8 +24,6 @@ public final class RandomStringGenerator {
     private static final int DISTRIBUTION = 10;
 
     private final static Random RANDOM = new Random();
-
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private RandomStringGenerator() {}
 
@@ -63,18 +58,12 @@ public final class RandomStringGenerator {
         String string = randomAlphanumericString(size / 3) + "\n\r " + randomAlphanumericString(size / 3) + "\n "
                 + randomAlphanumericString(size / 3);
         File path = filePath(dir, size);
-        FileOutputStream out = new FileOutputStream(path);
-        out.write(string.getBytes(UTF_8));
-        out.close();
+        FileUtils.writeFile(path, string);
     }
 
     public static String readFile(String dir, int size) throws IOException {
         File path = filePath(dir, size);
-        byte[] buffer = new byte[(int) path.length()];
-        FileInputStream in = new FileInputStream(path);
-        in.read(buffer);
-        in.close();
-        return new String(buffer, UTF_8);
+        return FileUtils.readFile(path);
     }
 
     public static void main(String[] args) throws IOException {
