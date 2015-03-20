@@ -1,7 +1,5 @@
-package replacer
+package replace
 
-import replace.ReplaceGroovy
-import replace.Replacer
 import spock.lang.Specification
 import spock.lang.Unroll
 
