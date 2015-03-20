@@ -125,6 +125,30 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_henri_submethods(string);
     }
 
+    /**
+     * Trying to prevent the toCharArray to clone the string is in fact really slow
+     */
+    @Benchmark
+    public String unfold_henri_newarray() {
+        return Replacer.unfold_henri_newarray(string);
+    }
+
+    /**
+     * Bulk array copy. Nice but twice slower
+     */
+    @Benchmark
+    public String unfold_henri_arraycopy() {
+        return Replacer.unfold_henri_arraycopy(string);
+    }
+
+    /**
+     * Black magic but faster
+     */
+    @Benchmark
+    public String unfold_henri_unsafe() {
+        return Replacer.unfold_henri_unsafe(string);
+    }
+
     @Benchmark
     public String unfold_olivier2() {
         return Replacer.unfold_olivier2(string);

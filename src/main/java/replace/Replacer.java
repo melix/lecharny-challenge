@@ -16,7 +16,9 @@
 package replace;
 
 import org.apache.commons.lang3.StringUtils;
+import sun.misc.Unsafe;
 
+import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
 public final class Replacer {
@@ -332,6 +334,148 @@ public final class Replacer {
 
     private static int getOffset(char p2, char c) {
         return p2 == c ? -2 : -1;
+    }
+
+    public static String unfold_henri_newarray(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = new char[s.length()];
+        int wrtAt = 0;
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = s.charAt(i);
+            chars[wrtAt] = c;
+            wrtAt += getWrtAt(p1, p2, c);
+            p2 = p1;
+            p1 = c;
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    public static String unfold_henri_arraycopy(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+        char[] chars = s.toCharArray();
+        int startAt = 0, wrtAt = 0, lastWrtAt = 0;
+
+        int i = 0;
+        for (; i < chars.length; i++) {
+            char c = chars[i];
+            int offset = getWrtAt(p1, p2, c);
+            wrtAt += offset;
+            if(offset != 1) {
+                System.arraycopy(chars, startAt, chars, lastWrtAt, i + offset - startAt);
+                startAt = i + 1;
+                lastWrtAt = wrtAt;
+            }
+            p2 = p1;
+            p1 = c;
+        }
+        if(startAt < chars.length) {
+            System.arraycopy(chars, startAt, chars, lastWrtAt, i - startAt);
+        }
+
+        return new String(chars, 0, wrtAt);
+    }
+
+    private static final Unsafe UNSAFE;
+    private static final long STRING_VALUE_FIELD_OFFSET;
+    private static final long CHAR_ARRAY_OFFSET;
+
+    private static Unsafe loadUnsafe() {
+        try {
+            Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+            unsafeField.setAccessible(true);
+            return (Unsafe) unsafeField.get(null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static {
+        UNSAFE = loadUnsafe();
+    }
+
+    private static long getFieldOffset(String fieldName) {
+        try {
+            return UNSAFE.objectFieldOffset(String.class.getDeclaredField(fieldName));
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static {
+        STRING_VALUE_FIELD_OFFSET = getFieldOffset("value");
+        CHAR_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(char[].class);
+    }
+
+    private static char[] toCharArray(String string) {
+        return (char[]) UNSAFE.getObject(string, STRING_VALUE_FIELD_OFFSET);
+    }
+
+    private static final Field VALUE;
+
+    static {
+        try {
+            VALUE = String.class.getDeclaredField("value");
+            VALUE.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void copy(char[] src, char[] dest, int length) {
+        UNSAFE.copyMemory(src, CHAR_ARRAY_OFFSET, dest, CHAR_ARRAY_OFFSET, length << 1);
+    }
+
+    public static String unfold_henri_unsafe(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+
+        char p1 = 'x';
+        char p2 = 'x';
+
+        char[] chars = new char[s.length()];
+        char[] innerChars = toCharArray(s);
+        copy(innerChars, chars, s.length());
+
+        int wrtAt = 0;
+
+        for (char c : chars) {
+            chars[wrtAt] = c;
+            wrtAt += getWrtAt(p1, p2, c);
+            p2 = p1;
+            p1 = c;
+        }
+
+        try {
+            s = (String) UNSAFE.allocateInstance(String.class);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        innerChars = new char[wrtAt];
+        copy(chars, innerChars, wrtAt);
+        try {
+            VALUE.set(s, innerChars);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return s;
     }
 
     public static String unfold_olivier2(String test) {
