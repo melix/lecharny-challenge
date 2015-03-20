@@ -21,16 +21,18 @@ import java.util.regex.Pattern;
 
 public final class Replacer {
 
+    private static final String PATTERN_STRING = "\n\r |\r\n |\n |\r ";
+    private static final Pattern PATTERN = Pattern.compile(PATTERN_STRING);
+
     private Replacer() {}
 
     public static String unfold_regexp(String s) {
         if (s == null) {
             return null;
         }
-        return s.replaceAll("\n\r |\r\n |\n |\r ", "");
+        return s.replaceAll(PATTERN_STRING, "");
     }
 
-    private static final Pattern PATTERN = Pattern.compile("\n\r |\r\n |\n |\r ");
 
     public static String unfold_regexp_compiled(String s) {
         if (s == null) {
