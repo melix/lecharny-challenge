@@ -57,7 +57,7 @@ public class ReplaceAllBenchmark {
      */
     @Benchmark
     public String unfold_regexp_compiled() {
-        return Replacer.unfold_regexp(string);
+        return Replacer.unfold_regexp_compiled(string);
     }
 
     /**
