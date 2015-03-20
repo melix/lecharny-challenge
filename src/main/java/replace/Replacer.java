@@ -470,11 +470,9 @@ public final class Replacer {
 
         innerChars = new char[wrtAt];
         copy(chars, innerChars, wrtAt);
-        try {
-            VALUE.set(s, innerChars);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+
+        UNSAFE.putObject(s, STRING_VALUE_FIELD_OFFSET, innerChars);
+
         return s;
     }
 

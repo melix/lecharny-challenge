@@ -142,7 +142,7 @@ public class ReplaceAllBenchmark {
     }
 
     /**
-     * Black magic but faster
+     * Black magic, slower, but I'm pretty sure we can improve on that
      */
     @Benchmark
     public String unfold_henri_unsafe() {
