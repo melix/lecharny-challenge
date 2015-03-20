@@ -47,6 +47,7 @@ class ReplacerSpecification extends Specification {
         'xxx\r\r '       | 'xxx\r'
         'xxx xxx'        | 'xxx xxx'
         'xxx\n xxx\r\n ' | 'xxxxxx'
+        'a\n\r b\n cd'   | 'abcd'
     }
 
     @Unroll("Method '#prettyMethod' for string '#prettyStr' has output '#prettyRef'")
