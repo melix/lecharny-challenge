@@ -21,7 +21,7 @@ import java.util.Random;
 
 public final class RandomStringGenerator {
 
-    private static final int DISTRIBUTION = 10;
+    private static final int DISTRIBUTION = 100;
 
     private final static Random RANDOM = new Random();
 
@@ -29,25 +29,43 @@ public final class RandomStringGenerator {
 
     public static String randomAlphanumericString(int len) {
         StringBuilder sb = new StringBuilder(len);
+        // Expected statistics:
+        // 40 SPACE (7%)
+        // 22 LINE_FEED (3%)
+        // 15 LINE_FEED_WITH_SPACE (2%)
+        // 493 OTHER (86%)
+
         for (int i = 0; i < len; i++) {
             int r = RANDOM.nextInt(DISTRIBUTION);
-            switch (r) {
-                case 0:
-                    sb.append('\r');
-                    break;
-                case 1:
-                    sb.append('\n');
-                    break;
-                case 2:
-                    sb.append(' ');
-                    break;
-                case 3:
-                    sb.append("\r\n");
-                default:
-                    sb.append((char) ('a' + RANDOM.nextInt(26)));
+            if(r >= 0 && r < 7) {
+                sb.append(' ');
+            }
+            else if(r >= 7 && r < 10) {
+                sb.append(pickEol());
+            }
+            else if(r >= 10 && r < 12) {
+                sb.append(pickEol() + " ");
+            }
+            else {
+                sb.append((char) ('a' + RANDOM.nextInt(26)));
             }
         }
         return sb.toString();
+    }
+
+    private static String pickEol() {
+        int r = RANDOM.nextInt(4);
+        switch (r) {
+        case 0:
+            return "\n\r";
+        case 1:
+            return "\r\n";
+        case 2:
+            return "\n";
+        case 3:
+            return "\r";
+        }
+        throw new InternalError("Unmatched number: " + r);
     }
 
     private static File filePath(String dir, int size) {
