@@ -22,7 +22,7 @@ dependencies {
         exclude group:'org.codehaus.groovy' // because we will use Groovy 2.5
     }
     // for tests using JUnit
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
 
 task generateDataSet(type:JavaExec) {
