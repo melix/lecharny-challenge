@@ -1,6 +1,4 @@
-package replacer
-
-import replace.ReplaceGroovy
+package replace
 
 class GroovyReplacerTest extends GroovyTestCase {
 

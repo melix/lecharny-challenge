@@ -1,7 +1,5 @@
-package replacer
+package replace
 
-import replace.ReplaceGroovy
-import replace.Replacer
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -18,7 +16,7 @@ class ReplacerSpecification extends Specification {
     private static Random RANDOM = new Random()
 
     private static List<Method> METHODS_TO_TEST = [Replacer, ReplaceGroovy]*.declaredMethods.flatten().findAll { Method it ->
-        it.parameterTypes.length == 1 && (it.modifiers & Modifier.STATIC) == Modifier.STATIC
+        it.parameterTypes.length == 1 && it.name.startsWith('unfold_') && Modifier.isStatic(it.modifiers)
     }
 
     private static List<String> RANDOM_STRINGS = (0..1000).collect {
@@ -49,6 +47,7 @@ class ReplacerSpecification extends Specification {
         'xxx\r\r '       | 'xxx\r'
         'xxx xxx'        | 'xxx xxx'
         'xxx\n xxx\r\n ' | 'xxxxxx'
+        'a\n\r b\n cd'   | 'abcd'
     }
 
     @Unroll("Method '#prettyMethod' for string '#prettyStr' has output '#prettyRef'")

@@ -57,7 +57,7 @@ public class ReplaceAllBenchmark {
      */
     @Benchmark
     public String unfold_regexp_compiled() {
-        return Replacer.unfold_regexp(string);
+        return Replacer.unfold_regexp_compiled(string);
     }
 
     /**
@@ -123,6 +123,30 @@ public class ReplaceAllBenchmark {
     @Benchmark
     public String unfold_henri_submethods() {
         return Replacer.unfold_henri_submethods(string);
+    }
+
+    /**
+     * Trying to prevent the toCharArray to clone the string is in fact really slow
+     */
+    @Benchmark
+    public String unfold_henri_newarray() {
+        return Replacer.unfold_henri_newarray(string);
+    }
+
+    /**
+     * Bulk array copy. Nice but twice slower
+     */
+    @Benchmark
+    public String unfold_henri_arraycopy() {
+        return Replacer.unfold_henri_arraycopy(string);
+    }
+
+    /**
+     * Black magic, slower, but I'm pretty sure we can improve on that
+     */
+    @Benchmark
+    public String unfold_henri_unsafe() {
+        return Replacer.unfold_henri_unsafe(string);
     }
 
     @Benchmark
