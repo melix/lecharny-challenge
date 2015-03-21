@@ -16,7 +16,7 @@ class ReplacerSpecification extends Specification {
     private static Random RANDOM = new Random()
 
     private static List<Method> METHODS_TO_TEST = [Replacer, ReplaceGroovy]*.declaredMethods.flatten().findAll { Method it ->
-        it.parameterTypes.length == 1 && (it.modifiers & Modifier.STATIC) == Modifier.STATIC
+        it.parameterTypes.length == 1 && it.name.startsWith('unfold_') && Modifier.isStatic(it.modifiers)
     }
 
     private static List<String> RANDOM_STRINGS = (0..1000).collect {
