@@ -25,7 +25,13 @@ public final class Replacer {
 
     private static final String PATTERN_STRING = "\n\r |\r\n |\n |\r ";
     private static final Pattern PATTERN = Pattern.compile(PATTERN_STRING);
+    private static final boolean JAVA6;
 
+    static {
+        String version = System.getProperty("java.version");
+        JAVA6 = version.startsWith("1.6");
+    }
+    
     private Replacer() {}
 
     public static String unfold_regexp(String s) {
@@ -443,6 +449,10 @@ public final class Replacer {
     public static String unfold_henri_unsafe(String s) {
         if (s == null || s.length() < 2) {
             return s;
+        }
+
+        if(JAVA6) {
+            return unfold_henri_submethods(s);
         }
 
         char p1 = 'x';
