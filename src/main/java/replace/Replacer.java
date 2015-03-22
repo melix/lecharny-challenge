@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.util.BitSet;
 import java.util.regex.Pattern;
 
 public final class Replacer {
@@ -396,6 +397,7 @@ public final class Replacer {
     private static final Unsafe UNSAFE;
     private static final long STRING_VALUE_FIELD_OFFSET;
     private static final long CHAR_ARRAY_OFFSET;
+    private static final int SCALE;
 
     private static Unsafe loadUnsafe() {
         try {
@@ -425,6 +427,7 @@ public final class Replacer {
     static {
         STRING_VALUE_FIELD_OFFSET = getFieldOffset("value");
         CHAR_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(char[].class);
+        SCALE = UNSAFE.arrayIndexScale(char[].class);
     }
 
     private static char[] toCharArray(String string) {
@@ -442,8 +445,13 @@ public final class Replacer {
         }
     }
 
-    private static void copy(char[] src, char[] dest, int length) {
+    static void copy(char[] src, char[] dest, int length) {
         UNSAFE.copyMemory(src, CHAR_ARRAY_OFFSET, dest, CHAR_ARRAY_OFFSET, length << 1);
+    }
+
+    static void copy(char[] src, int srcOffset, char[] dest, int destOffset, int length) {
+
+        UNSAFE.copyMemory(src, CHAR_ARRAY_OFFSET + (srcOffset*SCALE), dest, CHAR_ARRAY_OFFSET + (destOffset*SCALE), length << 1);
     }
 
     public static String unfold_henri_unsafe(String s) {
@@ -527,6 +535,66 @@ public final class Replacer {
 
     public static String unfold_common(final String string) {
         return StringUtils.replaceEach(string, TODO, TO);
+    }
+
+
+    public static String unfold_mbo(String s) {
+        if (s == null || s.length() < 2) {
+            return s;
+        }
+        final int size = s.length();
+        final char[] charssrc = s.toCharArray();
+        char[] charsdesc = new char[size];
+        final BitSet charToDel = findPostitionsToDelete(charssrc);
+
+
+        int srcIdx = 0;
+        int destIdx = 0;
+        int ns = charToDel.nextSetBit(0);
+        int nc = 0;
+        while(srcIdx < size && ns >= 0 && nc >= 0 && ns != Integer.MAX_VALUE && nc != Integer.MAX_VALUE) {
+            copy(charssrc, srcIdx, charsdesc, destIdx, ns-srcIdx);
+            destIdx += (ns-srcIdx);
+            nc = charToDel.nextClearBit(ns+1);
+            srcIdx = nc;
+            ns = charToDel.nextSetBit(nc+1);
+        }
+        final int lastCopyLength = size-srcIdx;
+        copy(charssrc, srcIdx, charsdesc, destIdx, lastCopyLength);
+
+        return new String(charsdesc, 0, destIdx+lastCopyLength);
+    }
+
+    public static BitSet findPostitionsToDelete(final char[] chars) {
+        char p1 = 'x';
+        char p2 = 'x';
+
+        int wrtAt = 0;
+        final BitSet charToDel = new BitSet(chars.length);
+
+        for (char c : chars) {
+            if (' ' == c) {
+                if ('\n' == p1) {
+                    if ('\r' == p2) {
+                        charToDel.set(wrtAt-2, wrtAt+1, true);
+                    } else {
+                        charToDel.set(wrtAt-1, wrtAt+1, true);
+                    }
+                }
+                else if ('\r' == p1) {
+                    if ('\n' == p2) {
+                        charToDel.set(wrtAt-2, wrtAt+1, true);
+                    } else {
+                        charToDel.set(wrtAt-1, wrtAt+1, true);
+                    }
+                }
+            }
+
+            wrtAt +=1;
+            p2 = p1;
+            p1 = c;
+        }
+        return charToDel;
     }
 
 }

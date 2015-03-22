@@ -154,6 +154,11 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_olivier2(string);
     }
 
+    @Benchmark
+    public String unfold_mbo() {
+        return Replacer.unfold_mbo(string);
+    }
+
 
     public static void main(String[] args) {
         // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
