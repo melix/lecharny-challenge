@@ -35,3 +35,27 @@ To use in IntelliJ, first run:
 ----
 
 Then open the generated project.
+
+= Results
+
+Below you will find the *latest results of the benchmark, as executed on Travis CI*. This section is automatically
+updated.
+
+// PLEASE DO NOT EDIT BELOW.
+// See gradle/results.gradle to understand why!
+
+== Results on JDK 8
+
+// start::jdk8
+// end::jdk8
+
+== Results on JDK 7
+
+// start::jdk7
+// end::jdk7
+
+== Results on JDK 6
+
+// start::jdk7
+// end::jdk7
+
