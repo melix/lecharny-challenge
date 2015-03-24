@@ -330,89 +330,89 @@ updated.
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_cedric_improved
-|11708.088072 ops/ms
-|±492.189306 ops/ms
+|unfold_cedric_ultimate
+|13257.089419 ops/ms
+|±457.389355 ops/ms
 
 |2
-|unfold_cedric_ultimate
-|10867.465583 ops/ms
-|±753.976878 ops/ms
+|unfold_cedric_improved
+|12434.426831 ops/ms
+|±455.162251 ops/ms
 
 |3
-|unfold_cedric_groovy
-|10568.91462 ops/ms
-|±867.441114 ops/ms
+|unfold_henri_noplusplus
+|12101.632513 ops/ms
+|±380.113427 ops/ms
 
 |4
-|unfold_cedric
-|10052.506246 ops/ms
-|±587.082428 ops/ms
+|unfold_henri_submethods
+|12114.925841 ops/ms
+|±414.953158 ops/ms
 
 |5
-|unfold_olivier2
-|9428.02861 ops/ms
-|±489.619991 ops/ms
+|unfold_cedric_groovy
+|11757.915405 ops/ms
+|±249.301162 ops/ms
 
 |6
-|unfold_henri_noplusplus
-|9073.268869 ops/ms
-|±561.040691 ops/ms
+|unfold_cedric_ultimate2_ternary
+|12148.676265 ops/ms
+|±1175.605574 ops/ms
 
 |7
-|unfold_cedric_ultimate2_with_else
-|8966.051674 ops/ms
-|±746.202889 ops/ms
+|unfold_cedric_ultimate2
+|11304.307365 ops/ms
+|±426.591469 ops/ms
 
 |8
-|unfold_cedric_ultimate2
-|8941.743826 ops/ms
-|±802.021244 ops/ms
+|unfold_henri_newarray
+|10872.119195 ops/ms
+|±504.141639 ops/ms
 
 |9
-|unfold_cedric_ultimate2_ternary
-|8172.13267 ops/ms
-|±359.34721 ops/ms
+|unfold_olivier2
+|10779.064724 ops/ms
+|±426.840717 ops/ms
 
 |10
-|unfold_henri_submethods
-|8317.214145 ops/ms
-|±647.257518 ops/ms
+|unfold_cedric_ultimate2_with_else
+|11019.027763 ops/ms
+|±816.812847 ops/ms
 
 |11
-|unfold_henri_newarray
-|7822.011481 ops/ms
-|±500.722702 ops/ms
+|unfold_cedric
+|10107.95081 ops/ms
+|±185.942942 ops/ms
 
 |12
 |unfold_henri_unsafe
-|7614.618214 ops/ms
-|±305.663031 ops/ms
+|8679.853965 ops/ms
+|±292.751549 ops/ms
 
 |13
 |unfold_henri_arraycopy
-|7358.171401 ops/ms
-|±926.930897 ops/ms
+|7850.459443 ops/ms
+|±242.24237 ops/ms
 
 |14
 |unfold_mbo
-|4451.070809 ops/ms
-|±715.447485 ops/ms
+|6016.653112 ops/ms
+|±140.442352 ops/ms
 
 |15
 |unfold_unfold_common
-|2495.57951 ops/ms
-|±104.114707 ops/ms
+|2946.501241 ops/ms
+|±128.873103 ops/ms
 
 |16
 |unfold_regexp_compiled
-|1026.024497 ops/ms
-|±51.920153 ops/ms
+|1419.006414 ops/ms
+|±45.835899 ops/ms
 
 |17
 |unfold_regexp
-|593.57101 ops/ms
-|±15.228805 ops/ms
+|665.779123 ops/ms
+|±22.93888 ops/ms
 
 |===
 
@@ -421,89 +421,89 @@ updated.
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_cedric_groovy
-|2516.46652 ops/ms
-|±255.594471 ops/ms
+|unfold_henri_submethods
+|2953.952792 ops/ms
+|±239.59934 ops/ms
 
 |2
-|unfold_cedric
-|2264.65885 ops/ms
-|±85.137781 ops/ms
+|unfold_cedric_ultimate
+|2716.997579 ops/ms
+|±68.789275 ops/ms
 
 |3
-|unfold_henri_unsafe
-|1925.146387 ops/ms
-|±74.564316 ops/ms
+|unfold_henri_noplusplus
+|2721.300517 ops/ms
+|±115.376636 ops/ms
 
 |4
-|unfold_cedric_ultimate2
-|2047.695825 ops/ms
-|±211.05379 ops/ms
+|unfold_cedric
+|2791.148284 ops/ms
+|±214.402201 ops/ms
 
 |5
-|unfold_henri_noplusplus
-|2029.433664 ops/ms
-|±235.247317 ops/ms
+|unfold_henri_newarray
+|2631.678965 ops/ms
+|±98.459198 ops/ms
 
 |6
-|unfold_olivier2
-|1843.181827 ops/ms
-|±98.767399 ops/ms
+|unfold_cedric_ultimate2_ternary
+|2599.550083 ops/ms
+|±101.271711 ops/ms
 
 |7
-|unfold_cedric_ultimate2_with_else
-|1921.970985 ops/ms
-|±186.432453 ops/ms
+|unfold_cedric_ultimate2
+|2476.48612 ops/ms
+|±88.483292 ops/ms
 
 |8
-|unfold_henri_newarray
-|1886.285164 ops/ms
-|±160.891357 ops/ms
+|unfold_cedric_groovy
+|2556.389245 ops/ms
+|±174.515017 ops/ms
 
 |9
-|unfold_cedric_improved
-|1871.900954 ops/ms
-|±148.518889 ops/ms
+|unfold_cedric_ultimate2_with_else
+|2316.978491 ops/ms
+|±106.667403 ops/ms
 
 |10
-|unfold_henri_submethods
-|1787.515227 ops/ms
-|±151.232683 ops/ms
+|unfold_cedric_improved
+|2065.509065 ops/ms
+|±73.015879 ops/ms
 
 |11
 |unfold_henri_arraycopy
-|1737.241479 ops/ms
-|±184.874586 ops/ms
+|1933.439319 ops/ms
+|±133.046439 ops/ms
 
 |12
-|unfold_cedric_ultimate
-|1767.808969 ops/ms
-|±233.82521 ops/ms
+|unfold_olivier2
+|1844.975371 ops/ms
+|±58.751512 ops/ms
 
 |13
-|unfold_cedric_ultimate2_ternary
-|1510.068156 ops/ms
-|±113.447929 ops/ms
+|unfold_henri_unsafe
+|1780.348392 ops/ms
+|±154.709892 ops/ms
 
 |14
 |unfold_mbo
-|1359.904697 ops/ms
-|±191.097231 ops/ms
+|1606.009022 ops/ms
+|±51.000683 ops/ms
 
 |15
 |unfold_unfold_common
-|643.827465 ops/ms
-|±38.256722 ops/ms
+|615.090081 ops/ms
+|±14.140515 ops/ms
 
 |16
-|unfold_regexp
-|160.688509 ops/ms
-|±10.920091 ops/ms
+|unfold_regexp_compiled
+|200.897723 ops/ms
+|±3.85697 ops/ms
 
 |17
-|unfold_regexp_compiled
-|159.244671 ops/ms
-|±13.82211 ops/ms
+|unfold_regexp
+|170.042141 ops/ms
+|±4.278985 ops/ms
 
 |===
 
@@ -512,89 +512,89 @@ updated.
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_cedric_groovy
-|231.563951 ops/ms
-|±18.18659 ops/ms
+|unfold_henri_newarray
+|291.59509 ops/ms
+|±5.773144 ops/ms
 
 |2
-|unfold_cedric_ultimate2
-|229.072049 ops/ms
-|±25.969982 ops/ms
+|unfold_henri_noplusplus
+|290.22432 ops/ms
+|±9.572997 ops/ms
 
 |3
 |unfold_henri_submethods
-|217.676161 ops/ms
-|±17.277089 ops/ms
+|291.517869 ops/ms
+|±12.637043 ops/ms
 
 |4
-|unfold_cedric_improved
-|210.550283 ops/ms
-|±13.995668 ops/ms
+|unfold_cedric_ultimate2
+|276.280935 ops/ms
+|±9.365838 ops/ms
 
 |5
-|unfold_cedric_ultimate2_ternary
-|207.81327 ops/ms
-|±13.538618 ops/ms
+|unfold_cedric_ultimate
+|284.650428 ops/ms
+|±20.024831 ops/ms
 
 |6
-|unfold_cedric
-|205.061193 ops/ms
-|±11.663233 ops/ms
+|unfold_henri_unsafe
+|261.231095 ops/ms
+|±4.897238 ops/ms
 
 |7
-|unfold_cedric_ultimate
-|196.725487 ops/ms
-|±14.263035 ops/ms
+|unfold_cedric_groovy
+|260.945334 ops/ms
+|±5.617983 ops/ms
 
 |8
-|unfold_henri_unsafe
-|183.978834 ops/ms
-|±8.139983 ops/ms
+|unfold_cedric
+|264.115656 ops/ms
+|±10.687496 ops/ms
 
 |9
 |unfold_cedric_ultimate2_with_else
-|191.177983 ops/ms
-|±17.565851 ops/ms
+|264.90202 ops/ms
+|±12.791928 ops/ms
 
 |10
-|unfold_henri_noplusplus
-|187.110686 ops/ms
-|±14.764798 ops/ms
+|unfold_henri_arraycopy
+|245.069856 ops/ms
+|±7.39498 ops/ms
 
 |11
-|unfold_henri_newarray
-|186.165058 ops/ms
-|±14.200747 ops/ms
+|unfold_cedric_ultimate2_ternary
+|246.194636 ops/ms
+|±20.518571 ops/ms
 
 |12
-|unfold_olivier2
-|178.572134 ops/ms
-|±7.932929 ops/ms
+|unfold_cedric_improved
+|239.594673 ops/ms
+|±13.944885 ops/ms
 
 |13
-|unfold_henri_arraycopy
-|165.672293 ops/ms
-|±14.211419 ops/ms
+|unfold_olivier2
+|192.780954 ops/ms
+|±6.522814 ops/ms
 
 |14
 |unfold_mbo
-|153.162284 ops/ms
-|±10.456265 ops/ms
+|184.21949 ops/ms
+|±5.787181 ops/ms
 
 |15
 |unfold_unfold_common
-|31.095927 ops/ms
-|±2.074962 ops/ms
+|39.529314 ops/ms
+|±1.242684 ops/ms
 
 |16
-|unfold_regexp
-|18.929292 ops/ms
-|±0.497371 ops/ms
+|unfold_regexp_compiled
+|20.223859 ops/ms
+|±0.370005 ops/ms
 
 |17
-|unfold_regexp_compiled
-|18.280315 ops/ms
-|±0.789771 ops/ms
+|unfold_regexp
+|19.509245 ops/ms
+|±0.246261 ops/ms
 
 |===
 
