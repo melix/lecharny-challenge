@@ -48,275 +48,35 @@ updated.
 
 // start::jdk8
 [cols="1,3,2,2", options="header"]
-.Table Benchmark results for string of length *10* on 1.8.0_40-b25
+.Table Benchmark results for string of length *10* on 1.8.0_31-b13
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_cedric_ultimate2_with_else
-|36021.342136 ops/ms
-|±200.884788 ops/ms
-
-|2
-|unfold_henri_noplusplus
-|36023.883342 ops/ms
-|±296.410479 ops/ms
-
-|3
-|unfold_cedric_ultimate
-|35720.136229 ops/ms
-|±225.427307 ops/ms
-
-|4
-|unfold_cedric_ultimate2_ternary
-|35795.79618 ops/ms
-|±347.027455 ops/ms
-
-|5
-|unfold_cedric_improved
-|34445.309905 ops/ms
-|±284.034039 ops/ms
-
-|6
-|unfold_cedric_groovy
-|34555.28066 ops/ms
-|±400.814742 ops/ms
-
-|7
-|unfold_cedric_ultimate2
-|33042.721637 ops/ms
-|±220.885915 ops/ms
-
-|8
-|unfold_henri_submethods
-|32612.834519 ops/ms
-|±200.103803 ops/ms
-
-|9
-|unfold_olivier2
-|32185.373892 ops/ms
-|±266.118132 ops/ms
-
-|10
-|unfold_cedric
-|23453.523844 ops/ms
-|±286.577934 ops/ms
-
-|11
-|unfold_henri_newarray
-|22615.670721 ops/ms
-|±175.255153 ops/ms
-
-|12
-|unfold_henri_unsafe
-|19701.061874 ops/ms
-|±140.359046 ops/ms
-
-|13
-|unfold_henri_arraycopy
-|19215.006933 ops/ms
-|±133.221708 ops/ms
-
-|14
-|unfold_mbo
-|12026.802813 ops/ms
-|±96.442271 ops/ms
-
-|15
-|unfold_unfold_common
-|7172.574219 ops/ms
-|±44.526028 ops/ms
-
-|16
-|unfold_regexp_compiled
-|3653.405941 ops/ms
-|±45.959296 ops/ms
-
-|17
 |unfold_regexp
-|1723.770838 ops/ms
-|±14.017931 ops/ms
+|738.83079 ops/ms
+|±30.278928 ops/ms
 
 |===
 
 [cols="1,3,2,2", options="header"]
-.Table Benchmark results for string of length *100* on 1.8.0_40-b25
+.Table Benchmark results for string of length *100* on 1.8.0_31-b13
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_cedric_ultimate2_with_else
-|9367.070173 ops/ms
-|±188.041683 ops/ms
-
-|2
-|unfold_cedric_improved
-|9336.386806 ops/ms
-|±160.427528 ops/ms
-
-|3
-|unfold_cedric_ultimate2
-|9290.706819 ops/ms
-|±165.83629 ops/ms
-
-|4
-|unfold_henri_noplusplus
-|9299.671995 ops/ms
-|±176.457489 ops/ms
-
-|5
-|unfold_cedric_ultimate2_ternary
-|9277.622578 ops/ms
-|±156.723336 ops/ms
-
-|6
-|unfold_henri_submethods
-|9288.24913 ops/ms
-|±176.332874 ops/ms
-
-|7
-|unfold_cedric_ultimate
-|9246.0452 ops/ms
-|±158.902065 ops/ms
-
-|8
-|unfold_cedric_groovy
-|8956.66644 ops/ms
-|±174.826099 ops/ms
-
-|9
-|unfold_olivier2
-|8008.75557 ops/ms
-|±105.20471 ops/ms
-
-|10
-|unfold_cedric
-|7885.235794 ops/ms
-|±117.734082 ops/ms
-
-|11
-|unfold_henri_unsafe
-|7827.454026 ops/ms
-|±132.702327 ops/ms
-
-|12
-|unfold_henri_newarray
-|6210.823073 ops/ms
-|±96.311964 ops/ms
-
-|13
-|unfold_mbo
-|4851.89114 ops/ms
-|±69.030954 ops/ms
-
-|14
-|unfold_henri_arraycopy
-|4258.619835 ops/ms
-|±70.951293 ops/ms
-
-|15
-|unfold_unfold_common
-|2054.930032 ops/ms
-|±68.024397 ops/ms
-
-|16
-|unfold_regexp_compiled
-|400.933631 ops/ms
-|±5.44004 ops/ms
-
-|17
 |unfold_regexp
-|354.937541 ops/ms
-|±5.795545 ops/ms
+|235.053271 ops/ms
+|±8.205313 ops/ms
 
 |===
 
 [cols="1,3,2,2", options="header"]
-.Table Benchmark results for string of length *1000* on 1.8.0_40-b25
+.Table Benchmark results for string of length *1000* on 1.8.0_31-b13
 |===
 |Rank |Method name |Score | Error (99.9%)
 |1
-|unfold_henri_submethods
-|894.091075 ops/ms
-|±4.607751 ops/ms
-
-|2
-|unfold_henri_noplusplus
-|882.467312 ops/ms
-|±5.770845 ops/ms
-
-|3
-|unfold_cedric_ultimate2_ternary
-|884.19942 ops/ms
-|±8.249673 ops/ms
-
-|4
-|unfold_cedric_ultimate
-|880.969665 ops/ms
-|±5.392787 ops/ms
-
-|5
-|unfold_cedric_ultimate2_with_else
-|872.743729 ops/ms
-|±7.370346 ops/ms
-
-|6
-|unfold_cedric_ultimate2
-|842.107108 ops/ms
-|±5.252031 ops/ms
-
-|7
-|unfold_cedric_groovy
-|833.99502 ops/ms
-|±3.948218 ops/ms
-
-|8
-|unfold_henri_unsafe
-|830.472315 ops/ms
-|±5.301516 ops/ms
-
-|9
-|unfold_cedric_improved
-|827.414035 ops/ms
-|±5.111706 ops/ms
-
-|10
-|unfold_cedric
-|793.249425 ops/ms
-|±4.468485 ops/ms
-
-|11
-|unfold_olivier2
-|731.582884 ops/ms
-|±5.904404 ops/ms
-
-|12
-|unfold_henri_newarray
-|622.957683 ops/ms
-|±5.946105 ops/ms
-
-|13
-|unfold_mbo
-|498.785289 ops/ms
-|±4.271691 ops/ms
-
-|14
-|unfold_henri_arraycopy
-|412.753345 ops/ms
-|±3.021934 ops/ms
-
-|15
-|unfold_unfold_common
-|144.3579 ops/ms
-|±2.553569 ops/ms
-
-|16
 |unfold_regexp
-|42.763446 ops/ms
-|±0.580545 ops/ms
-
-|17
-|unfold_regexp_compiled
-|39.671302 ops/ms
-|±0.714197 ops/ms
+|19.59996 ops/ms
+|±0.854909 ops/ms
 
 |===
 
