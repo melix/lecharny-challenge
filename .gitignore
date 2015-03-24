@@ -2,6 +2,7 @@
 .idea/
 build/
 out/
+target/
 lecharny-challenge.iml
 gradle.iml
 lecharny-challenge.ipr

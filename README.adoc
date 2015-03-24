@@ -35,3 +35,7 @@ To use in IntelliJ, first run:
 ----
 
 Then open the generated project.
+
+= Maven
+
+In case you prefer to use Maven instead of Gradle, a pom.xml is also available.
