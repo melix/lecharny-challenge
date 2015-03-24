@@ -1,6 +1,7 @@
 .gradle/
 build/
 out/
+target/
 lecharny-challenge.iml
 lecharny-challenge.ipr
 lecharny-challenge.iws
