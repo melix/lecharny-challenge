@@ -60,7 +60,7 @@ task parseResults(dependsOn:'jmh') {
 task updateReadme(dependsOn:parseResults) {
     description = "Automatically updates the README.adoc file with the latest results"
 
-    ext.gitRepo = 'git@github.com:melix/lecharny-challenge.git'
+    ext.gitRepo = 'https://github.com/melix/lecharny-challenge.git'
     ext.repoPath = file("$project.buildDir/git")
     ext.readmeFile = file("$repoPath/README.adoc")
 

@@ -329,6 +329,8 @@ updated.
 
 == Results on JDK 6
 
-// start::jdk7
-// end::jdk7
+// start::jdk6
+Please check the CI build image:https://travis-ci.org/melix/lecharny-challenge.svg?branch=master["Build Status", link="https://travis-ci.org/melix/lecharny-challenge"]
+because the results for JDK 6 cannot be automatically fetched.
+// end::jdk6
 
