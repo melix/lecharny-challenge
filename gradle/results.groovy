@@ -11,8 +11,6 @@ buildscript {
     }
 }
 
-import org.ajoberstar.grgit.*
-
 task parseResults(dependsOn:'jmh') {
     description = "Parses the JMH results file and generates an Asciidoctor results file from it"
 
@@ -72,7 +70,7 @@ task updateReadme(dependsOn:parseResults) {
     outputs.file(readmeFile)
 
     onlyIf {
-        System.getenv('TRAVIS_BRANCH') == 'master'
+        JavaVersion.current().java7Compatible && System.getenv('TRAVIS_BRANCH') == 'master'
     }
 
     doLast {
@@ -81,10 +79,12 @@ task updateReadme(dependsOn:parseResults) {
             repoPath.deleteDir()
         }
 
-        def credentials = new Credentials(username:System.getenv('GITHUB_TOKEN'),password:'')
+        // workaround for Java 6
+
+        def credentials = Class.forName('org.ajoberstar.grgit.Credentials').newInstance(username:System.getenv('GITHUB_TOKEN'),password:'')
 
         // first clone the repo
-        def grgit = Grgit.clone(credentials: credentials, dir: repoPath, uri: gitRepo)
+        def grgit = Class.forName('org.ajoberstar.grgit.Grgit').clone(credentials: credentials, dir: repoPath, uri: gitRepo)
 
         def readme = readmeFile as String[]
         def startMarker = "start::jdk${JavaVersion.current().majorVersion}"
