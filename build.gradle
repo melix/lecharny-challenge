@@ -49,3 +49,5 @@ jmh {
 
 // data set has to be generated before we start
 tasks.getByName('jmh').dependsOn(generateDataSet)
+
+apply from:'gradle/results.groovy'

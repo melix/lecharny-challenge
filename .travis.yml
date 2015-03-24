@@ -1,5 +1,8 @@
-script: ./gradlew test jmh
+script: ./gradlew test updateReadme
 jdk:
 - openjdk6
 - openjdk7
 - oraclejdk8
+env:
+  global:
+    secure: dC/CEOeryQ0HLhkmM5ovMN6xyoVgzddijxOHg/5BH6ynfCQR1n4N4qmHtKk631OOY+Un6u0WN9ji6x1qz7CUQH1a5h8UGb83xiOfzQqHIF+dVp3Xyl7nzYXZR9/amoI+3/BYmJqkBDVe6c7D8Y2fsq97PRPmNOZeESCpwwrRKeQ=
