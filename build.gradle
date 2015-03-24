@@ -3,7 +3,6 @@ plugins {
 }
 
 repositories {
-    maven { url 'http://oss.jfrog.org/oss-snapshot-local/' }
     jcenter()
 }
 
@@ -14,13 +13,11 @@ apply plugin: 'me.champeau.gradle.jmh'
 
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
-    compile 'org.codehaus.groovy:groovy:2.5.0-SNAPSHOT'
+    compile 'org.codehaus.groovy:groovy:2.4.3'
     // for tests written in Groovy
-    testCompile 'org.codehaus.groovy:groovy-test:2.5.0-SNAPSHOT'
+    testCompile 'org.codehaus.groovy:groovy-test:2.4.3'
     // for tests using Spock
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
-        exclude group:'org.codehaus.groovy' // because we will use Groovy 2.5
-    }
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
     // for tests using JUnit
     testCompile 'junit:junit:4.12'
 }
