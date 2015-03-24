@@ -85,6 +85,39 @@ updated.
 == Results on JDK 7
 
 // start::jdk7
+[cols="1,3,2,2", options="header"]
+.Table Benchmark results for string of length *10* on 1.7.0_75-b13
+|===
+|Rank |Method name |Score | Error (99.9%)
+|1
+|unfold_regexp
+|720.273047 ops/ms
+|±29.472643 ops/ms
+
+|===
+
+[cols="1,3,2,2", options="header"]
+.Table Benchmark results for string of length *100* on 1.7.0_75-b13
+|===
+|Rank |Method name |Score | Error (99.9%)
+|1
+|unfold_regexp
+|177.846771 ops/ms
+|±3.81661 ops/ms
+
+|===
+
+[cols="1,3,2,2", options="header"]
+.Table Benchmark results for string of length *1000* on 1.7.0_75-b13
+|===
+|Rank |Method name |Score | Error (99.9%)
+|1
+|unfold_regexp
+|20.166109 ops/ms
+|±0.339094 ops/ms
+
+|===
+
 // end::jdk7
 
 == Results on JDK 6
