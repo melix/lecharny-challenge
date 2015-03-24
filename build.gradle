@@ -39,6 +39,7 @@ task generateDataSet(type:JavaExec) {
 }
 
 jmh {
+    jmhVersion = '1.7'
     warmupIterations = 20
     warmup = '1s'
     iterations = 20
