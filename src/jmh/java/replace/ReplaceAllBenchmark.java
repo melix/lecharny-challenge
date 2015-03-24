@@ -55,7 +55,7 @@ public class ReplaceAllBenchmark {
     /**
      * Strangely, compiling the regex brings the same result
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_regexp_compiled() {
         return Replacer.unfold_regexp_compiled(string);
     }
@@ -63,27 +63,27 @@ public class ReplaceAllBenchmark {
     /**
      * Commons lang does better. Twice as fast
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_unfold_common() {
         return Replacer.unfold_common(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric() {
         return Replacer.unfold_cedric(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_improved() {
         return Replacer.unfold_cedric_improved(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_ultimate() {
         return Replacer.unfold_cedric_ultimate(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_ultimate2() {
         return Replacer.unfold_cedric_ultimate2(string);
     }
@@ -91,7 +91,7 @@ public class ReplaceAllBenchmark {
     /**
      * Adding the missing else doesn't improve anything. It might even be harmful
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_ultimate2_with_else() {
         return Replacer.unfold_cedric_ultimate2_with_else(string);
     }
@@ -99,12 +99,12 @@ public class ReplaceAllBenchmark {
     /**
      * First seemed to improve a bit but now it doesn't that much
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_ultimate2_ternary() {
         return Replacer.unfold_cedric_ultimate2_ternary(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_cedric_groovy() {
         return ReplaceGroovy.unfold_groovy(string);
     }
@@ -112,7 +112,7 @@ public class ReplaceAllBenchmark {
     /**
      * Removing the ++ leave it more or less the same speed
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_henri_noplusplus() {
         return Replacer.unfold_henri_noplusplus(string);
     }
@@ -120,7 +120,7 @@ public class ReplaceAllBenchmark {
     /**
      * But separating in submethods gets almost 10% faster
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_henri_submethods() {
         return Replacer.unfold_henri_submethods(string);
     }
@@ -128,7 +128,7 @@ public class ReplaceAllBenchmark {
     /**
      * Trying to prevent the toCharArray to clone the string is in fact really slow
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_henri_newarray() {
         return Replacer.unfold_henri_newarray(string);
     }
@@ -136,7 +136,7 @@ public class ReplaceAllBenchmark {
     /**
      * Bulk array copy. Nice but twice slower
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_henri_arraycopy() {
         return Replacer.unfold_henri_arraycopy(string);
     }
@@ -144,17 +144,17 @@ public class ReplaceAllBenchmark {
     /**
      * Black magic, slower, but I'm pretty sure we can improve on that
      */
-    //@Benchmark
+    @Benchmark
     public String unfold_henri_unsafe() {
         return Replacer.unfold_henri_unsafe(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_olivier2() {
         return Replacer.unfold_olivier2(string);
     }
 
-    //@Benchmark
+    @Benchmark
     public String unfold_mbo() {
         return Replacer.unfold_mbo(string);
     }
