@@ -44,7 +44,7 @@ jmh {
     iterations = 20
     benchmarkMode = 'thrpt'
     timeUnit = 'ms'
-    fork = 1
+    fork = 2
     humanOutputFile = null
     jvmArgs = "-Ddatasetdir=${generateDataSet.outputDir}"
 }
