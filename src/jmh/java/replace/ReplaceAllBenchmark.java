@@ -109,6 +109,11 @@ public class ReplaceAllBenchmark {
         return ReplaceGroovy.unfold_groovy(string);
     }
 
+    @Benchmark
+    public String unfold_cedric_groovy_bytecode() {
+        return ReplaceGroovy.unfold_groovy_bytecode(string);
+    }
+
     /**
      * Removing the ++ leave it more or less the same speed
      */
@@ -159,54 +164,4 @@ public class ReplaceAllBenchmark {
         return Replacer.unfold_mbo(string);
     }
 
-
-    public static void main(String[] args) {
-        // Dummy main to check empirical correctness of an algorithm, using the regexp version as the reference
-        Method[] methods = Replacer.class.getMethods();
-        List<Method> impls = new ArrayList<Method>();
-        for (Method method : methods) {
-            if (method.getName().startsWith("unfold_") && method.getParameterTypes().length==1 && Modifier.isStatic(method.getModifiers())) {
-                impls.add(method);
-            }
-        }
-        Set<Method> correct = new HashSet<Method>(impls);
-        for (int i = 0; i < 10000; i++) {
-            String str = RandomStringGenerator.randomAlphanumericString(20) + "\n\r " + RandomStringGenerator.randomAlphanumericString(30) + "\n "
-                    + RandomStringGenerator.randomAlphanumericString(30);
-            String orig = str.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-            String ref = Replacer.unfold_regexp(str).replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-            for (Method method : impls) {
-                if (correct.contains(method)) {
-                    try {
-                        String res = (String) method.invoke(null, str);
-                        String cmp = res.replace('\n', 'N').replace('\r', 'R').replace(' ', '_');
-                        boolean equals = ref.equals(cmp);
-                        if (!equals) {
-                            System.err.println("Reflection."+method.getName() + " is incorrect!");
-                            System.err.println(orig);
-                            System.err.println(ref);
-                            System.err.println(cmp);
-                            System.err.println("---------------------------");
-                            correct.remove(method);
-                        }
-                    } catch (InvocationTargetException e) {
-                        correct.remove(method);
-                    } catch (IllegalAccessException e) {
-                        correct.remove(method);
-                    }
-                }
-            }
-        }
-        System.err.println("The following methods are deemed to be correct:");
-        for (Method method : correct) {
-            System.err.println("   Reflection."+method.getName());
-        }
-
-        System.err.println("The following methods are proved to be incorrect:");
-        Set<Method> incorrect = new HashSet<Method>(impls);
-        incorrect.removeAll(correct);
-        for (Method method : incorrect) {
-            System.err.println("   Reflection."+method.getName());
-        }
-    }
 } 

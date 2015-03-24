@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     jcenter()
+    maven { url 'http://oss.jfrog.org/oss-release-local' }
 }
 
 apply plugin: 'java'
@@ -14,6 +15,7 @@ apply plugin: 'me.champeau.gradle.jmh'
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'org.codehaus.groovy:groovy:2.4.3'
+    compile 'me.champeau.groovy:bytecode-xform:0.2.0'
     // for tests written in Groovy
     testCompile 'org.codehaus.groovy:groovy-test:2.4.3'
     // for tests using Spock
@@ -53,3 +55,5 @@ jmh {
 tasks.getByName('jmh').dependsOn(generateDataSet)
 
 apply from:'gradle/results.groovy'
+
+compileGroovy.groovyOptions.configurationScript = file('gradle/config.groovy')
