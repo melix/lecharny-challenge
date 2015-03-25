@@ -42,6 +42,9 @@ class ReplaceGroovy {
         new String(chars, 0, wrtAt)
     }
 
+    /**
+     * A handcrafted bytecode version of the unfold algorithm!
+     */
     @Bytecode
     static String unfold_groovy_bytecode(String s) {
         // local variable table
@@ -53,18 +56,18 @@ class ReplaceGroovy {
         // 6 : int len
         // 7 : char c
         aload_0
-        ifnull l1
+        ifnull returnSelf
 
         aload 0
         invokevirtual 'java/lang/String.length','()I'
         iconst_2
-        if_icmpge l3
+        if_icmpge initCharArray
 
-        l1:
+        returnSelf:
         aload_0
         areturn
 
-        l3:
+        initCharArray:
         bipush 120
         dup
         istore 1
@@ -80,10 +83,10 @@ class ReplaceGroovy {
         arraylength
         istore 6
 
-        l4:         // for (c : chars)
+        loopStart: // for (c : chars)
         iload 5
         iload 6
-        if_icmpge l7
+        if_icmpge createNewString
         aload 3
         iload 5
         caload
@@ -95,41 +98,42 @@ class ReplaceGroovy {
         iload 4
         iload 7
         castore
-        iinc 4,1
 
         bipush 32
         iload 7
-        if_icmpne l6
+        if_icmpne incrementWrtAt
 
+        iload_1
         bipush 13
-        iload 1
-        if_icmpne l5
+        if_icmpne testTab
         iinc 4,-2
+        iload_2
         bipush 10
-        iload 2
-        if_icmpne l6
-        iinc 4,-1
-        _goto l6
+        if_icmpeq swapPreviousChars
 
-        l5:
+        testTab:
+        iload_1
         bipush 10
-        iload 1
-        if_icmpne l6
+        if_icmpne incrementWrtAt
         iinc 4,-2
+        iload 2
         bipush 13
-        iload 2
-        if_icmpne l6
-        iinc 4,-1
+        if_icmpne incrementWrtAt
 
-        l6:
-        iload 1
-        istore 2
+        _goto swapPreviousChars
+
+        incrementWrtAt:
+        iinc 4, 1
+
+        swapPreviousChars:
+        iload_1
+        istore_2
         iload 7
-        istore 1
+        istore_1
 
-        _goto l4
+        _goto loopStart
 
-        l7:
+        createNewString:
         _new 'java/lang/String'
         dup
         aload 3
