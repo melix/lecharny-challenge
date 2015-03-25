@@ -53,10 +53,8 @@ class ReplaceGroovy {
         // 6 : int len
         // 7 : char c
         aload_0
-        ifnonnull l0
-        _goto l1
+        ifnull l1
 
-        l0:
         aload 0
         invokevirtual 'java/lang/String.length','()I'
         iconst_2
